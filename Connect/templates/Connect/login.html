@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+</head>
+<body>
+<div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" class="button-form">ورود</button>
+    </form>
+<a href="{% url 'Connect:register' %}">ثبت نام</a>
+</div>
+</body>
+</html>
