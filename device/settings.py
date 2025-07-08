@@ -111,8 +111,8 @@ DATABASES = {
         ,'NAME': 'testdevicedb',
         'USER': 'root',
         'PASSWORD': 'Kz2b9NEfhZ4XM2bsLsBybCeI'
-        ,'HOST': 'testdevicedb'
-        ,'PORT': 5432,
+        ,'HOST': 'fdb-5256f11c.liara.cloud'
+        ,'PORT': '5432',
     }
 }
 
