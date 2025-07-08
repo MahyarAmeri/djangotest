@@ -5,6 +5,9 @@ from django.contrib.auth import authenticate, login, logout
 from .models import massage
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
+def testtt(request):
+    pass
 def registerUser(request):
     if request.method == 'POST':
         print("ok")
