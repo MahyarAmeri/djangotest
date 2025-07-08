@@ -101,20 +101,20 @@ WSGI_APPLICATION = 'device.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default' : dj_database_url.config(default=os.environ.get('DATABASE_URL'))
-# }
-
 DATABASES = {
-    'default' : {
-        'ENGINE': 'django.db.backends.postgresql'
-        ,'NAME': 'testdevicedb',
-        'USER': 'root',
-        'PASSWORD': 'Kz2b9NEfhZ4XM2bsLsBybCeI'
-        ,'HOST': 'fdb-5256f11c.liara.cloud'
-        ,'PORT': '5432',
-    }
+    'default' : dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 }
+
+# DATABASES = {
+#     'default' : {
+#         'ENGINE': 'django.db.backends.postgresql'
+#         ,'NAME': 'testdevicedb',
+#         'USER': 'root',
+#         'PASSWORD': 'Kz2b9NEfhZ4XM2bsLsBybCeI'
+#         ,'HOST': 'fdb-5256f11c.liara.cloud'
+#         ,'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
