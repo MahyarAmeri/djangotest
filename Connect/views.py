@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from .forms import loginForm, massageForm
 from django.contrib.auth import authenticate, login, logout
-from .models import massage
+from .models import massage, CountView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -24,6 +24,9 @@ def registerUser(request):
     return render(request, 'Connect/register.html', {'form': form})
 
 def loginUser(request):
+    coun = CountView.objects.get(id=1)
+    coun.count +=1
+    coun.save()
     if request.method == 'POST':
         print("ok")
         form = loginForm(request.POST)
@@ -36,7 +39,7 @@ def loginUser(request):
             return redirect('Connect:chat')
 
     form = loginForm(request.POST)
-    return render(request, 'Connect/login.html', {'form': form})
+    return render(request, 'Connect/login.html', {'form': form, 'coun': coun})
 
 
 def logoutUser(request):
