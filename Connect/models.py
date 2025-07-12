@@ -13,3 +13,11 @@ class massage(models.Model):
 
 class CountView(models.Model):
     count = models.IntegerField(default=0)
+
+
+class DoorClick(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.user.username)

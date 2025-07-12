@@ -8,6 +8,9 @@ from rest_framework.response import Response
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAdminUser
+from .models import DoorClick
+from .serializers import UserSerializer, DoorClickSerializer
 
 
 def testtt(request):
@@ -77,18 +80,49 @@ class testView(APIView):
 
 
 
-class CustomLoginView(ObtainAuthToken):
+# class CustomLoginView(ObtainAuthToken):
+#     def post(self, request, *args, **kwargs):
+#         response = super().post(request, *args, **kwargs)
+#         token = Token.objects.get(key=response.data['token'])
+#         return Response({
+#             'token': token.key,
+#             'username': token.user.username
+#         })
+#
+# class LogoutView(APIView):
+#     permission_classes = [IsAuthenticated]
+#
+#     def post(self, request):
+#         request.user.auth_token.delete()
+#         return Response({'success': 'Logged out successfully.'})
+
+
+class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        token = Token.objects.get(key=response.data['token'])
-        return Response({
-            'token': token.key,
-            'username': token.user.username
-        })
+        resp = super().post(request, *args, **kwargs)
+        token = Token.objects.get(key=resp.data['token'])
+        return Response({'token': token.key, 'username': token.user.username, 'is_admin': token.user.is_superuser})
 
-class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]
-
+class DoorClickView(APIView):
     def post(self, request):
-        request.user.auth_token.delete()
-        return Response({'success': 'Logged out successfully.'})
+        DoorClick.objects.create(user=request.user)
+        return Response({'status': 'ok'})
+
+class UserListView(APIView):
+    permission_classes = [IsAdminUser]
+    def get(self, request):
+        users = User.objects.all()
+        return Response(UserSerializer(users, many=True).data)
+
+class UserClicksView(APIView):
+    permission_classes = [IsAdminUser]
+    def get(self, request, user_id):
+        clicks = DoorClick.objects.filter(user__id=user_id)
+        return Response(DoorClickSerializer(clicks, many=True).data)
+
+class CreateUserView(APIView):
+    permission_classes = [IsAdminUser]
+    def post(self, request):
+        from django.contrib.auth.models import User
+        u = User.objects.create_user(username=request.data['username'], password=request.data['password'])
+        return Response({'id': u.id, 'username': u.username})
